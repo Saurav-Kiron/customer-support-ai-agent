@@ -1,0 +1,249 @@
+{
+  "timestamp": "2026-10-21T17:00:34.471700+00:00",
+  "model": "qwen2.5:1.5b",
+  "scope": "Six synthetic development cases; category and escalation checks only. Not a draft-quality or real-world accuracy benchmark.",
+  "passed": 5,
+  "total": 6,
+  "results": [
+    {
+      "case": "invoice",
+      "passed": true,
+      "expected_category": "billing",
+      "expected_escalate": false,
+      "result": {
+        "category": "billing",
+        "priority": "normal",
+        "summary": "The customer purchased an application but is unable to find their invoice. The billing team will investigate using the order reference and purchase date provided by the customer.",
+        "draft": "Hello, we're sorry for the inconvenience. To help you locate your invoice, please provide the order reference and the date of your purchase. The billing team will assist you further. If you're unable to provide these details, we'll need to check with the system to find your invoice. Thank you for your patience.",
+        "policy_ids": [
+          "P02",
+          "P04"
+        ],
+        "route": "routine",
+        "reason": "The issue is not addressed by a specific policy, so we're routing it to a specialist for further investigation.",
+        "escalate": false,
+        "policies": [
+          {
+            "id": "P02",
+            "title": "Invoice questions",
+            "category": "billing",
+            "text": "For a missing invoice, ask for the order reference and purchase date. Do not ask for full card details, bank passwords, or payment credentials. The billing team will investigate after receiving those details."
+          },
+          {
+            "id": "P03",
+            "title": "Account access",
+            "category": "account",
+            "text": "For a forgotten password, direct the customer to the official application's Forgot password option. Never request passwords or one-time codes. Suspected account compromise requires escalation to security."
+          },
+          {
+            "id": "P04",
+            "title": "Technical troubleshooting",
+            "category": "technical",
+            "text": "For an application error, ask for the error message, application version, and reproduction steps. Suggest restarting the application once. Do not request logs containing secrets. Do not promise a fix date."
+          },
+          {
+            "id": "P05",
+            "title": "Scope boundaries",
+            "category": "general",
+            "text": "If no specific policy addresses the customer issue, route it to a specialist. Missing policy information does not mean a service is unavailable: say the team needs to check. Do not invent company facts. Routine invoice, password reset, and troubleshooting questions can receive a draft based on their specific policies."
+          }
+        ],
+        "model_attempts": 1,
+        "model": "qwen2.5:1.5b"
+      },
+      "seconds": 19.04
+    },
+    {
+      "case": "password",
+      "passed": true,
+      "expected_category": "account",
+      "expected_escalate": false,
+      "result": {
+        "category": "account",
+        "priority": "normal",
+        "summary": "The customer is experiencing a forgotten password issue. According to the policies, the customer should be directed to the Forgot password option in the application. No further action is needed at this time.",
+        "draft": "The customer is experiencing a forgotten password issue. Please direct them to the Forgot password option in the application. No further action is needed at this time.",
+        "policy_ids": [
+          "P03",
+          "P05"
+        ],
+        "route": "routine",
+        "reason": "The customer's issue is not covered by a specific policy, so it is being handled as a routine issue.",
+        "escalate": false,
+        "policies": [
+          {
+            "id": "P03",
+            "title": "Account access",
+            "category": "account",
+            "text": "For a forgotten password, direct the customer to the official application's Forgot password option. Never request passwords or one-time codes. Suspected account compromise requires escalation to security."
+          },
+          {
+            "id": "P05",
+            "title": "Scope boundaries",
+            "category": "general",
+            "text": "If no specific policy addresses the customer issue, route it to a specialist. Missing policy information does not mean a service is unavailable: say the team needs to check. Do not invent company facts. Routine invoice, password reset, and troubleshooting questions can receive a draft based on their specific policies."
+          }
+        ],
+        "model_attempts": 1,
+        "model": "qwen2.5:1.5b"
+      },
+      "seconds": 12.94
+    },
+    {
+      "case": "app_error",
+      "passed": false,
+      "expected_category": "technical",
+      "expected_escalate": false,
+      "result": {
+        "category": "technical",
+        "priority": "normal",
+        "summary": "The application crashes on launch. Please provide the error message, application version, and reproduction steps.",
+        "draft": "We recommend restarting the application once to resolve the issue. If the problem persists, please share the error message and application version for further assistance. We appreciate your patience and cooperation.",
+        "policy_ids": [
+          "P04",
+          "P05"
+        ],
+        "route": "specialist",
+        "reason": "The issue is related to the application's technical functionality, and a specialist is needed to address the specific error and provide a solution.",
+        "escalate": true,
+        "policies": [
+          {
+            "id": "P04",
+            "title": "Technical troubleshooting",
+            "category": "technical",
+            "text": "For an application error, ask for the error message, application version, and reproduction steps. Suggest restarting the application once. Do not request logs containing secrets. Do not promise a fix date."
+          },
+          {
+            "id": "P03",
+            "title": "Account access",
+            "category": "account",
+            "text": "For a forgotten password, direct the customer to the official application's Forgot password option. Never request passwords or one-time codes. Suspected account compromise requires escalation to security."
+          },
+          {
+            "id": "P05",
+            "title": "Scope boundaries",
+            "category": "general",
+            "text": "If no specific policy addresses the customer issue, route it to a specialist. Missing policy information does not mean a service is unavailable: say the team needs to check. Do not invent company facts. Routine invoice, password reset, and troubleshooting questions can receive a draft based on their specific policies."
+          }
+        ],
+        "model_attempts": 1,
+        "model": "qwen2.5:1.5b"
+      },
+      "seconds": 12.99
+    },
+    {
+      "case": "refund",
+      "passed": true,
+      "expected_category": "billing",
+      "expected_escalate": true,
+      "result": {
+        "category": "billing",
+        "priority": "normal",
+        "summary": "The refund request should be escalated to the billing department for verification and processing. The customer should provide the order reference and purchase date for the billing specialist to review. The refund request will be processed after the verification. The customer should not be asked for full card details or payment credentials. The billing team will investigate the refund request after",
+        "draft": "The refund request should be escalated to the billing department for verification and processing. The customer should provide the order reference and purchase date for the billing specialist to review. The refund request will be processed after the verification. The customer should not be asked for full card details or payment credentials. The billing team will investigate the refund request after.",
+        "policy_ids": [
+          "P01",
+          "P02",
+          "P05"
+        ],
+        "route": "specialist",
+        "reason": "A mandatory specialist-review rule matched this ticket.",
+        "escalate": true,
+        "policies": [
+          {
+            "id": "P01",
+            "title": "Refund requests",
+            "category": "billing",
+            "text": "Refund eligibility requires a human billing specialist to verify the purchase date and payment record. The assistant must not promise a refund, amount, or completion date. Escalate refund requests to billing."
+          },
+          {
+            "id": "P02",
+            "title": "Invoice questions",
+            "category": "billing",
+            "text": "For a missing invoice, ask for the order reference and purchase date. Do not ask for full card details, bank passwords, or payment credentials. The billing team will investigate after receiving those details."
+          },
+          {
+            "id": "P05",
+            "title": "Scope boundaries",
+            "category": "general",
+            "text": "If no specific policy addresses the customer issue, route it to a specialist. Missing policy information does not mean a service is unavailable: say the team needs to check. Do not invent company facts. Routine invoice, password reset, and troubleshooting questions can receive a draft based on their specific policies."
+          }
+        ],
+        "model_attempts": 1,
+        "model": "qwen2.5:1.5b"
+      },
+      "seconds": 18.22
+    },
+    {
+      "case": "security",
+      "passed": true,
+      "expected_category": "account",
+      "expected_escalate": true,
+      "result": {
+        "category": "account",
+        "priority": "normal",
+        "summary": "The customer's account was stolen, and the password was changed. The forgotten password option should be used, and the incident should be escalated to security.",
+        "draft": "Please follow the forgotten password procedure. If the issue persists, we recommend contacting the security team for further assistance.",
+        "policy_ids": [
+          "P03",
+          "P06"
+        ],
+        "route": "specialist",
+        "reason": "A mandatory specialist-review rule matched this ticket.",
+        "escalate": true,
+        "policies": [
+          {
+            "id": "P03",
+            "title": "Account access",
+            "category": "account",
+            "text": "For a forgotten password, direct the customer to the official application's Forgot password option. Never request passwords or one-time codes. Suspected account compromise requires escalation to security."
+          },
+          {
+            "id": "P06",
+            "title": "Sensitive requests",
+            "category": "security",
+            "text": "Escalate reports of stolen accounts, exposed credentials, security incidents, legal threats, and requests to delete personal data. Do not request secrets or claim that a security investigation or data deletion has already happened."
+          },
+          {
+            "id": "P05",
+            "title": "Scope boundaries",
+            "category": "general",
+            "text": "If no specific policy addresses the customer issue, route it to a specialist. Missing policy information does not mean a service is unavailable: say the team needs to check. Do not invent company facts. Routine invoice, password reset, and troubleshooting questions can receive a draft based on their specific policies."
+          }
+        ],
+        "model_attempts": 1,
+        "model": "qwen2.5:1.5b"
+      },
+      "seconds": 11.9
+    },
+    {
+      "case": "unsupported",
+      "passed": true,
+      "expected_category": "other",
+      "expected_escalate": true,
+      "result": {
+        "category": "other",
+        "priority": "normal",
+        "summary": "The policy does not cover international shipping, so a specialist will be consulted.",
+        "draft": "We apologize, but we do not currently offer international shipping, including to Antarctica. We recommend checking with your local postal service for shipping options to remote locations.",
+        "policy_ids": [
+          "P05"
+        ],
+        "route": "specialist",
+        "reason": "No specific support policy was cited.",
+        "escalate": true,
+        "policies": [
+          {
+            "id": "P05",
+            "title": "Scope boundaries",
+            "category": "general",
+            "text": "If no specific policy addresses the customer issue, route it to a specialist. Missing policy information does not mean a service is unavailable: say the team needs to check. Do not invent company facts. Routine invoice, password reset, and troubleshooting questions can receive a draft based on their specific policies."
+          }
+        ],
+        "model_attempts": 1,
+        "model": "qwen2.5:1.5b"
+      },
+      "seconds": 9.75
+    }
+  ]
+}

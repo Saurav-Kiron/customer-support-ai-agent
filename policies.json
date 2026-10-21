@@ -1,0 +1,38 @@
+[
+  {
+    "id": "P01",
+    "title": "Refund requests",
+    "category": "billing",
+    "text": "Refund eligibility requires a human billing specialist to verify the purchase date and payment record. The assistant must not promise a refund, amount, or completion date. Escalate refund requests to billing."
+  },
+  {
+    "id": "P02",
+    "title": "Invoice questions",
+    "category": "billing",
+    "text": "For a missing invoice, ask for the order reference and purchase date. Do not ask for full card details, bank passwords, or payment credentials. The billing team will investigate after receiving those details."
+  },
+  {
+    "id": "P03",
+    "title": "Account access",
+    "category": "account",
+    "text": "For a forgotten password, direct the customer to the official application's Forgot password option. Never request passwords or one-time codes. Suspected account compromise requires escalation to security."
+  },
+  {
+    "id": "P04",
+    "title": "Technical troubleshooting",
+    "category": "technical",
+    "text": "For an application error, ask for the error message, application version, and reproduction steps. Suggest restarting the application once. Do not request logs containing secrets. Do not promise a fix date."
+  },
+  {
+    "id": "P05",
+    "title": "Scope boundaries",
+    "category": "general",
+    "text": "If no specific policy addresses the customer issue, route it to a specialist. Missing policy information does not mean a service is unavailable: say the team needs to check. Do not invent company facts. Routine invoice, password reset, and troubleshooting questions can receive a draft based on their specific policies."
+  },
+  {
+    "id": "P06",
+    "title": "Sensitive requests",
+    "category": "security",
+    "text": "Escalate reports of stolen accounts, exposed credentials, security incidents, legal threats, and requests to delete personal data. Do not request secrets or claim that a security investigation or data deletion has already happened."
+  }
+]

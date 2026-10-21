@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="A local AI-assisted customer support workspace with human review.">
+<title>Support Studio</title>
+<style>
+:root{font-family:Inter,Segoe UI,Arial,sans-serif;color:#172635;background:#f2f5f8;font-size:15px}*{box-sizing:border-box}body{margin:0}header{background:#172635;color:white;padding:27px 5vw;display:flex;justify-content:space-between;align-items:center;gap:20px}h1{font-size:27px;letter-spacing:-1px;margin:0}header p{margin:7px 0;color:#bac9d5}.tag{font-size:11px;letter-spacing:1px;border:1px solid #748898;border-radius:20px;padding:8px 12px}main{max-width:1300px;margin:30px auto;padding:0 24px;display:grid;grid-template-columns:330px minmax(0,1fr);gap:24px}.panel{background:white;border:1px solid #dce3e9;border-radius:15px;padding:24px;margin-bottom:18px}h2{font-size:19px;margin:0 0 15px}h3{font-size:15px;margin:20px 0 10px}label{display:block;font-size:13px;font-weight:600;margin:14px 0 7px}input,textarea,select{width:100%;font:inherit;padding:11px;border:1px solid #bdcbd7;border-radius:7px;background:white;color:inherit}textarea{min-height:110px;resize:vertical}button,.link{font:inherit;font-size:13px;border:0;border-radius:7px;background:#235fbc;color:white;padding:11px 15px;cursor:pointer;text-decoration:none}button:hover{filter:brightness(.92)}button:disabled{opacity:.5;cursor:wait}.secondary{background:#edf2f7;color:#263f58}.danger{background:#f7e9e9;color:#963939}.actions{display:flex;gap:9px;flex-wrap:wrap;margin-top:14px}.ticket{display:block;width:100%;text-align:left;background:#f2f5f8;color:inherit;margin:8px 0;border:1px solid transparent;padding:13px}.ticket.selected{border-color:#235fbc;background:#eaf1fd}.ticket strong{display:block;margin-bottom:7px;overflow-wrap:anywhere}.ticket small{color:#526579}.badge{display:inline-block;background:#e7eef8;color:#1c4b8b;padding:5px 9px;border-radius:20px;font-size:11px;text-transform:uppercase;letter-spacing:.6px}.muted{color:#607487;font-size:13px;line-height:1.6}.body{white-space:pre-wrap;overflow-wrap:anywhere;line-height:1.65}.policy{border-left:3px solid #99b4d7;padding:9px 13px;margin:10px 0;background:#f5f8fc;font-size:13px;line-height:1.6}.event{border-bottom:1px solid #e4eaf0;padding:11px 0;font-size:13px}.event time{display:block;font-size:11px;color:#64788a;margin-top:4px}.notice{padding:13px 16px;border-radius:8px;background:#e8f0fc;margin-bottom:18px;line-height:1.5}.notice.error{background:#fceaea;color:#802727}.empty{padding:60px 20px;text-align:center;color:#607487}.split{display:flex;justify-content:space-between;gap:14px;align-items:center}details summary{cursor:pointer;font-weight:600;font-size:13px}footer{padding:10px 24px 30px;text-align:center;color:#607487;font-size:12px}a{color:#235fbc}[hidden]{display:none!important}:focus-visible{outline:3px solid #f0b44b;outline-offset:3px}@media(max-width:800px){main{grid-template-columns:1fr;padding:0 15px}header{align-items:flex-start;flex-direction:column}.panel{padding:18px}}
+</style>
+</head>
+<body>
+<header><div><h1>Support Studio<span style="color:#8eb9fb">.</span></h1><p>Policy-informed drafts. Human decisions. A traceable workflow.</p></div><span class="tag">LOCAL DEMO · NO EXTERNAL MESSAGES</span></header>
+<main>
+<aside>
+<section class="panel"><h2>Create a ticket</h2><p class="muted">Use fictional customer issues. The demo stores tickets on this computer.</p>
+<form id="ticket-form"><label for="subject">Subject</label><input id="subject" maxlength="160" required placeholder="Invoice missing">
+<label for="body">Customer message</label><textarea id="body" maxlength="6000" required placeholder="I bought the application yesterday but have not received an invoice."></textarea>
+<div class="actions"><button type="submit">Create ticket</button><button type="button" id="sample" class="secondary">Use example</button></div></form></section>
+<section class="panel"><div class="split"><h2>Ticket queue</h2><button id="refresh" class="secondary" type="button">Refresh</button></div>
+<label for="filter">Status</label><select id="filter"><option value="all">All tickets</option><option>new</option><option>review</option><option>approved</option><option>escalated</option><option>sent</option><option>rejected</option><option>resolved</option></select>
+<div id="queue"></div></section>
+</aside>
+<section aria-label="Ticket workspace">
+<div id="message" class="notice" role="status" aria-live="polite" hidden></div>
+<div id="empty" class="panel empty"><h2>Your review workspace</h2><p>Create or select a ticket to start.</p><p>Analyze → Review → Approve → Simulate delivery</p><p class="muted">Refunds, security issues, and unsupported requests go to specialist review.</p></div>
+<div id="detail" hidden>
+<section class="panel"><div class="split"><h2 id="title"></h2><span id="status" class="badge"></span></div><p id="ticket-body" class="body"></p><p id="meta" class="muted"></p>
+<button id="analyze" type="button">Analyze with local AI</button></section>
+<section id="analysis-panel" class="panel" hidden><h2>Agent proposal</h2><p id="summary" class="body"></p><p id="routing" class="muted"></p><div id="reason" class="notice"></div>
+<label for="reply">Reply draft — check every claim before approval</label><textarea id="reply" style="min-height:180px"></textarea>
+<p id="review-help" class="muted">You can edit the draft. Approval saves this exact text; simulated delivery uses only that approved version.</p>
+<div class="actions"><button id="approve" type="button">Approve edited reply</button><button id="send" type="button">Simulate delivery</button></div>
+<div id="decision"><label for="note">Review note</label><input id="note" maxlength="500" placeholder="Explain a rejection or specialist resolution"><div class="actions"><button id="reject" type="button" class="danger">Reject draft</button><button id="resolve" type="button" class="secondary">Record specialist resolution</button></div></div>
+<h3>Cited policies</h3><div id="policies"></div><p class="muted">A valid policy ID verifies the reference exists; it does not prove the draft follows that policy.</p>
+</section>
+<section id="outbox-panel" class="panel" hidden><h2>Simulated outbox</h2><p class="muted">Saved locally. No email, customer message, refund, or account change was performed.</p><p id="sent-reply" class="body"></p></section>
+<section class="panel"><h2>Audit timeline</h2><div id="events"></div></section>
+</div></section>
+</main><footer>Support Studio · Single-user portfolio prototype · <a href="/docs">API documentation</a> · <a href="/policies">Fictional policy set</a></footer>
+<script>
+const $=id=>document.getElementById(id);
+let selected=null,tickets=[],busy=false;
+function notify(text,error=false){$('message').textContent=text;$('message').hidden=!text;$('message').classList.toggle('error',error)}
+async function api(path,data){const r=await fetch(path,data===undefined?{}:{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(data)});let value;try{value=await r.json()}catch{throw Error('The server returned an unreadable response.')}if(!r.ok)throw Error(typeof value.detail==='string'?value.detail:JSON.stringify(value.detail));return value}
+function setBusy(value){busy=value;document.querySelectorAll('button').forEach(b=>b.disabled=value)}
+async function work(fn){if(busy)return;setBusy(true);try{await fn()}catch(e){notify(e.message,true)}finally{setBusy(false)}}
+function queue(){const visible=tickets.filter(t=>$('filter').value==='all'||t.status===$('filter').value);$('queue').replaceChildren();if(!visible.length){const p=document.createElement('p');p.className='muted';p.textContent='No tickets in this view.';$('queue').append(p)}for(const t of visible){const b=document.createElement('button');b.className='ticket'+(selected?.id===t.id?' selected':'');const title=document.createElement('strong');title.textContent=t.subject;const state=document.createElement('small');state.textContent=t.status+' · '+t.id.slice(0,8);b.append(title,state);b.onclick=()=>work(async()=>{selected=await api('/tickets/'+t.id);notify('');render();queue()});$('queue').append(b)}}
+async function refresh(){tickets=await api('/tickets');queue()}
+function render(){const t=selected;$('empty').hidden=!!t;$('detail').hidden=!t;if(!t)return;$('title').textContent=t.subject;$('status').textContent=t.status;$('ticket-body').textContent=t.body;$('meta').textContent='Ticket '+t.id+' · revision '+t.revision;
+$('analyze').hidden=!['new','rejected'].includes(t.status);$('analysis-panel').hidden=!t.analysis;$('outbox-panel').hidden=!t.outbox;
+if(t.analysis){const a=t.analysis;$('summary').textContent=a.summary;$('routing').textContent=a.category+' · '+a.priority+' priority · '+a.model+' · '+a.elapsed_seconds+'s';$('reason').textContent=a.reason;$('reply').value=t.reply||'';$('reply').readOnly=t.status!=='review';$('approve').hidden=t.status!=='review';$('send').hidden=t.status!=='approved';$('reject').hidden=!['review','approved'].includes(t.status);$('resolve').hidden=t.status!=='escalated';$('decision').hidden=!['review','approved','escalated'].includes(t.status);$('review-help').hidden=t.status!=='review';$('policies').replaceChildren();for(const p of a.policies.filter(p=>a.policy_ids.includes(p.id))){const el=document.createElement('div');el.className='policy';el.textContent=p.id+' · '+p.title+' — '+p.text;$('policies').append(el)}}
+if(t.outbox)$('sent-reply').textContent=t.outbox.reply;$('events').replaceChildren();for(const e of t.events){const el=document.createElement('div');el.className='event';const action=document.createElement('strong');action.textContent=e.action.replaceAll('_',' ');const time=document.createElement('time');time.textContent=new Date(e.created_at).toLocaleString();el.append(action,time);if(e.details.note){const p=document.createElement('p');p.textContent=e.details.note;el.append(p)}$('events').append(el)}}
+async function act(action,extra={}){const id=selected.id;notify(action==='analyze'?'Local AI is analyzing this ticket. The first run may take a few minutes.':'Saving…');selected=await api('/tickets/'+id+'/'+action,{revision:selected.revision,...extra});$('note').value='';render();await refresh();notify(action==='simulate-send'?'Saved to the local simulated outbox. No message was sent externally.':'Ticket updated.')}
+$('ticket-form').onsubmit=e=>{e.preventDefault();work(async()=>{selected=await api('/tickets',{subject:$('subject').value,body:$('body').value});$('ticket-form').reset();render();await refresh();notify('Ticket created. Run the agent to prepare a proposal.')})};
+$('sample').onclick=()=>{$('subject').value='Missing invoice';$('body').value='I purchased the application yesterday and cannot find my invoice. Can you help?'};
+$('filter').onchange=queue;$('refresh').onclick=()=>work(async()=>{if(selected)selected=await api('/tickets/'+selected.id);render();await refresh();notify('Queue refreshed.')});
+$('analyze').onclick=()=>work(()=>act('analyze'));
+$('approve').onclick=()=>work(()=>act('approve',{reply:$('reply').value}));
+$('send').onclick=()=>work(()=>act('simulate-send'));
+$('reject').onclick=()=>work(()=>act('reject',{note:$('note').value}));
+$('resolve').onclick=()=>work(()=>act('resolve',{note:$('note').value}));
+work(refresh);
+</script>
+</body></html>
